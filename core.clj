@@ -16,6 +16,10 @@
 
 (def  ^:private readme-header
   (str "# Swift Keywords\n"
+       "**Disclaimer**: Swift is a trademark of Apple Inc. This is an unofficial documentation project created for educational purposes.\nAll Swift language keywords, syntax, and related concepts are the intellectual property of Apple Inc. This project is not affiliated with, endorsed by, or sponsored by Apple Inc.\n\n"
+       "**Copyright Notice**: Swift and the Swift logo are trademarks of Apple Inc.\n\n"
+       "---\n\n"
+       "## Motivation\n"
        "Swift got over 200 keywords now here is table lookup for the keywords, definitions and where to use.\n\n"))
 
 (defn  ^:private gen-toc-item

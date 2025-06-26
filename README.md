@@ -1,4 +1,12 @@
 # Swift Keywords
+**Disclaimer**: Swift is a trademark of Apple Inc. This is an unofficial documentation project created for educational purposes.
+All Swift language keywords, syntax, and related concepts are the intellectual property of Apple Inc. This project is not affiliated with, endorsed by, or sponsored by Apple Inc.
+
+**Copyright Notice**: Swift and the Swift logo are trademarks of Apple Inc.
+
+---
+
+## Motivation
 Swift got over 200 keywords now here is table lookup for the keywords, definitions and where to use.
 
 ## Keywords Table of Content
