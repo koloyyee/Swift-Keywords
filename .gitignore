@@ -18,8 +18,6 @@ pom.xml.asc
 .babashka/
 
 # Generated files
-keywords_map.clj
-keywords.md
 
 # IDE
 .vscode/
