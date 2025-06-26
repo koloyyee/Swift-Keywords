@@ -14,7 +14,7 @@ The definitions and where to use were researched with Gemini; if you find it ina
 
 ---
 
-## Keywords Table of Content
+## Keywords Table of Contents
 [__consuming](#__consuming)
 , [__owned](#__owned)
 , [__setter_access](#__setter_access)
