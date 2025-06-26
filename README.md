@@ -16,412 +16,209 @@ The definitions and where to use were researched with Gemini, if you find it in 
 
 ## Keywords Table of Content
 [__consuming](#__consuming)
-
-[__owned](#__owned)
-
-[__setter_access](#__setter_access)
-
-[__shared](#__shared)
-
-[_backDeploy](#_backDeploy)
-
-[_borrow](#_borrow)
-
-[_borrowing](#_borrowing)
-
-[_BridgeObject](#_BridgeObject)
-
-[_Class](#_Class)
-
-[_compilerInitialized](#_compilerInitialized)
-
-[_const](#_const)
-
-[_consuming](#_consuming)
-
-[_documentation](#_documentation)
-
-[_dynamicReplacement](#_dynamicReplacement)
-
-[_effects](#_effects)
-
-[_forward](#_forward)
-
-[_implements](#_implements)
-
-[_linear](#_linear)
-
-[_local](#_local)
-
-[_modify](#_modify)
-
-[_move](#_move)
-
-[_mutating](#_mutating)
-
-[_NativeClass](#_NativeClass)
-
-[_NativeRefCountedObject](#_NativeRefCountedObject)
-
-[_noMetadata](#_noMetadata)
-
-[_opaqueReturnTypeOf](#_opaqueReturnTypeOf)
-
-[_originallyDefinedIn](#_originallyDefinedIn)
-
-[_PackageDescription](#_PackageDescription)
-
-[_read](#_read)
-
-[_RefCountedObject](#_RefCountedObject)
-
-[specialized](#specialized)
-
-[_specialize](#_specialize)
-
-[_spi_available](#_spi_available)
-
-[_Trivial](#_Trivial)
-
-[_TrivialAtMost](#_TrivialAtMost)
-
-[_TrivialStride](#_TrivialStride)
-
-[_underlyingVersion](#_underlyingVersion)
-
-[_UnknownLayout](#_UnknownLayout)
-
-[_version](#_version)
-
-[abi](#abi)
-
-[accesses](#accesses)
-
-[actor](#actor)
-
-[addressWithNativeOwner](#addressWithNativeOwner)
-
-[addressWithOwner](#addressWithOwner)
-
-[any](#any)
-
-[Any](#Any)
-
-[as](#as)
-
-[assignment](#assignment)
-
-[associatedtype](#associatedtype)
-
-[associativity](#associativity)
-
-[async](#async)
-
-[attached](#attached)
-
-[autoclosure](#autoclosure)
-
-[availability](#availability)
-
-[available](#available)
-
-[await](#await)
-
-[backDeployed](#backDeployed)
-
-[before](#before)
-
-[block](#block)
-
-[borrow](#borrow)
-
-[borrowing](#borrowing)
-
-[break](#break)
-
-[canImport](#canImport)
-
-[](#)
-
-[catch](#catch)
-
-[class](#class)
-
-[compiler](#compiler)
-
-[consume](#consume)
-
-[copy](#copy)
-
-[consuming](#consuming)
-
-[continue](#continue)
-
-[convenience](#convenience)
-
-[convention](#convention)
-
-[default](#default)
-
-[defer](#defer)
-
-[deinit](#deinit)
-
-[dependsOn](#dependsOn)
-
-[deprecated](#deprecated)
-
-[derivative](#derivative)
-
-[didSet](#didSet)
-
-[differentiable](#differentiable)
-
-[distributed](#distributed)
-
-[do](#do)
-
-[dynamic](#dynamic)
-
-[each](#each)
-
-[else](#else)
-
-[enum](#enum)
-
-[escaping](#escaping)
-
-[exported](#exported)
-
-[extension](#extension)
-
-[fallthrough](#fallthrough)
-
-[false](#false)
-
-[file](#file)
-
-[fileprivate](#fileprivate)
-
-[final](#final)
-
-[for](#for)
-
-[discard](#discard)
-
-[forward](#forward)
-
-[func](#func)
-
-[freestanding](#freestanding)
-
-[get](#get)
-
-[guard](#guard)
-
-[higherThan](#higherThan)
-
-[if](#if)
-
-[import](#import)
-
-[in](#in)
-
-[indirect](#indirect)
-
-[infix](#infix)
-
-[init](#init)
-
-[initializes](#initializes)
-
-[inout](#inout)
-
-[internal](#internal)
-
-[introduced](#introduced)
-
-[is](#is)
-
-[isolated](#isolated)
-
-[kind](#kind)
-
-[lazy](#lazy)
-
-[left](#left)
-
-[let](#let)
-
-[line](#line)
-
-[linear](#linear)
-
-[lowerThan](#lowerThan)
-
-[macro](#macro)
-
-[message](#message)
-
-[metadata](#metadata)
-
-[modify](#modify)
-
-[module](#module)
-
-[mutableAddressWithNativeOwner](#mutableAddressWithNativeOwner)
-
-[mutableAddressWithOwner](#mutableAddressWithOwner)
-
-[mutating](#mutating)
-
-[nil](#nil)
-
-[noasync](#noasync)
-
-[noDerivative](#noDerivative)
-
-[noescape](#noescape)
-
-[none](#none)
-
-[nonisolated](#nonisolated)
-
-[nonmutating](#nonmutating)
-
-[nonsending](#nonsending)
-
-[objc](#objc)
-
-[obsoleted](#obsoleted)
-
-[of](#of)
-
-[open](#open)
-
-[operator](#operator)
-
-[optional](#optional)
-
-[override](#override)
-
-[package](#package)
-
-[postfix](#postfix)
-
-[precedencegroup](#precedencegroup)
-
-[preconcurrency](#preconcurrency)
-
-[prefix](#prefix)
-
-[private](#private)
-
-[Protocol](#Protocol)
-
-[protocol](#protocol)
-
-[public](#public)
-
-[read](#read)
-
-[reasync](#reasync)
-
-[renamed](#renamed)
-
-[repeat](#repeat)
-
-[required](#required)
-
-[rethrows](#rethrows)
-
-[retroactive](#retroactive)
-
-[return](#return)
-
-[reverse](#reverse)
-
-[right](#right)
-
-[safe](#safe)
-
-[scoped](#scoped)
-
-[self](#self)
-
-[sending](#sending)
-
-[Self](#Self)
-
-[Sendable](#Sendable)
-
-[set](#set)
-
-[some](#some)
-
-[spi](#spi)
-
-[spiModule](#spiModule)
-
-[static](#static)
-
-[struct](#struct)
-
-[subscript](#subscript)
-
-[super](#super)
-
-[swift](#swift)
-
-[switch](#switch)
-
-[target](#target)
-
-[then](#then)
-
-[throw](#throw)
-
-[throws](#throws)
-
-[transpose](#transpose)
-
-[true](#true)
-
-[try](#try)
-
-[Type](#Type)
-
-[typealias](#typealias)
-
-[unavailable](#unavailable)
-
-[unchecked](#unchecked)
-
-[unowned](#unowned)
-
-[unsafe](#unsafe)
-
-[unsafeAddress](#unsafeAddress)
-
-[unsafeMutableAddress](#unsafeMutableAddress)
-
-[using](#using)
-
-[var](#var)
-
-[visibility](#visibility)
-
-[weak](#weak)
-
-[where](#where)
-
-[while](#while)
-
-[willSet](#willSet)
-
-[wrt](#wrt)
-
-[yield](#yield)
+, [__owned](#__owned)
+, [__setter_access](#__setter_access)
+, [__shared](#__shared)
+, [_backDeploy](#_backDeploy)
+, [_borrow](#_borrow)
+, [_borrowing](#_borrowing)
+, [_BridgeObject](#_BridgeObject)
+, [_Class](#_Class)
+, [_compilerInitialized](#_compilerInitialized)
+, [_const](#_const)
+, [_consuming](#_consuming)
+, [_documentation](#_documentation)
+, [_dynamicReplacement](#_dynamicReplacement)
+, [_effects](#_effects)
+, [_forward](#_forward)
+, [_implements](#_implements)
+, [_linear](#_linear)
+, [_local](#_local)
+, [_modify](#_modify)
+, [_move](#_move)
+, [_mutating](#_mutating)
+, [_NativeClass](#_NativeClass)
+, [_NativeRefCountedObject](#_NativeRefCountedObject)
+, [_noMetadata](#_noMetadata)
+, [_opaqueReturnTypeOf](#_opaqueReturnTypeOf)
+, [_originallyDefinedIn](#_originallyDefinedIn)
+, [_PackageDescription](#_PackageDescription)
+, [_read](#_read)
+, [_RefCountedObject](#_RefCountedObject)
+, [specialized](#specialized)
+, [_specialize](#_specialize)
+, [_spi_available](#_spi_available)
+, [_Trivial](#_Trivial)
+, [_TrivialAtMost](#_TrivialAtMost)
+, [_TrivialStride](#_TrivialStride)
+, [_underlyingVersion](#_underlyingVersion)
+, [_UnknownLayout](#_UnknownLayout)
+, [_version](#_version)
+, [abi](#abi)
+, [accesses](#accesses)
+, [actor](#actor)
+, [addressWithNativeOwner](#addressWithNativeOwner)
+, [addressWithOwner](#addressWithOwner)
+, [any](#any)
+, [Any](#Any)
+, [as](#as)
+, [assignment](#assignment)
+, [associatedtype](#associatedtype)
+, [associativity](#associativity)
+, [async](#async)
+, [attached](#attached)
+, [autoclosure](#autoclosure)
+, [availability](#availability)
+, [available](#available)
+, [await](#await)
+, [backDeployed](#backDeployed)
+, [before](#before)
+, [block](#block)
+, [borrow](#borrow)
+, [borrowing](#borrowing)
+, [break](#break)
+, [canImport](#canImport)
+, [](#)
+, [catch](#catch)
+, [class](#class)
+, [compiler](#compiler)
+, [consume](#consume)
+, [copy](#copy)
+, [consuming](#consuming)
+, [continue](#continue)
+, [convenience](#convenience)
+, [convention](#convention)
+, [default](#default)
+, [defer](#defer)
+, [deinit](#deinit)
+, [dependsOn](#dependsOn)
+, [deprecated](#deprecated)
+, [derivative](#derivative)
+, [didSet](#didSet)
+, [differentiable](#differentiable)
+, [distributed](#distributed)
+, [do](#do)
+, [dynamic](#dynamic)
+, [each](#each)
+, [else](#else)
+, [enum](#enum)
+, [escaping](#escaping)
+, [exported](#exported)
+, [extension](#extension)
+, [fallthrough](#fallthrough)
+, [false](#false)
+, [file](#file)
+, [fileprivate](#fileprivate)
+, [final](#final)
+, [for](#for)
+, [discard](#discard)
+, [forward](#forward)
+, [func](#func)
+, [freestanding](#freestanding)
+, [get](#get)
+, [guard](#guard)
+, [higherThan](#higherThan)
+, [if](#if)
+, [import](#import)
+, [in](#in)
+, [indirect](#indirect)
+, [infix](#infix)
+, [init](#init)
+, [initializes](#initializes)
+, [inout](#inout)
+, [internal](#internal)
+, [introduced](#introduced)
+, [is](#is)
+, [isolated](#isolated)
+, [kind](#kind)
+, [lazy](#lazy)
+, [left](#left)
+, [let](#let)
+, [line](#line)
+, [linear](#linear)
+, [lowerThan](#lowerThan)
+, [macro](#macro)
+, [message](#message)
+, [metadata](#metadata)
+, [modify](#modify)
+, [module](#module)
+, [mutableAddressWithNativeOwner](#mutableAddressWithNativeOwner)
+, [mutableAddressWithOwner](#mutableAddressWithOwner)
+, [mutating](#mutating)
+, [nil](#nil)
+, [noasync](#noasync)
+, [noDerivative](#noDerivative)
+, [noescape](#noescape)
+, [none](#none)
+, [nonisolated](#nonisolated)
+, [nonmutating](#nonmutating)
+, [nonsending](#nonsending)
+, [objc](#objc)
+, [obsoleted](#obsoleted)
+, [of](#of)
+, [open](#open)
+, [operator](#operator)
+, [optional](#optional)
+, [override](#override)
+, [package](#package)
+, [postfix](#postfix)
+, [precedencegroup](#precedencegroup)
+, [preconcurrency](#preconcurrency)
+, [prefix](#prefix)
+, [private](#private)
+, [Protocol](#Protocol)
+, [protocol](#protocol)
+, [public](#public)
+, [read](#read)
+, [reasync](#reasync)
+, [renamed](#renamed)
+, [repeat](#repeat)
+, [required](#required)
+, [rethrows](#rethrows)
+, [retroactive](#retroactive)
+, [return](#return)
+, [reverse](#reverse)
+, [right](#right)
+, [safe](#safe)
+, [scoped](#scoped)
+, [self](#self)
+, [sending](#sending)
+, [Self](#Self)
+, [Sendable](#Sendable)
+, [set](#set)
+, [some](#some)
+, [spi](#spi)
+, [spiModule](#spiModule)
+, [static](#static)
+, [struct](#struct)
+, [subscript](#subscript)
+, [super](#super)
+, [swift](#swift)
+, [switch](#switch)
+, [target](#target)
+, [then](#then)
+, [throw](#throw)
+, [throws](#throws)
+, [transpose](#transpose)
+, [true](#true)
+, [try](#try)
+, [Type](#Type)
+, [typealias](#typealias)
+, [unavailable](#unavailable)
+, [unchecked](#unchecked)
+, [unowned](#unowned)
+, [unsafe](#unsafe)
+, [unsafeAddress](#unsafeAddress)
+, [unsafeMutableAddress](#unsafeMutableAddress)
+, [using](#using)
+, [var](#var)
+, [visibility](#visibility)
+, [weak](#weak)
+, [where](#where)
+, [while](#while)
+, [willSet](#willSet)
+, [wrt](#wrt)
+, [yield](#yield)
 ## Look Up Table
 | Keyword | Definition | Where to use? |
 |----------|----------|----------|

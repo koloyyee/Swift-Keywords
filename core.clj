@@ -38,7 +38,7 @@
 (def toc
   (str readme-header
        "## Keywords Table of Content\n"
-       (str/join "\n" (gen-toc keywords-vec))))
+       (str/join ", " (gen-toc keywords-vec))))
 #_toc
 
 ;; Generate table header
