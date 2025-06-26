@@ -1,0 +1,45 @@
+# Clojure
+.nrepl-port
+.nrepl-history
+.lein-*
+.repl
+.calva/
+target/
+classes/
+checkouts/
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+.clj-kondo/
+.lsp/
+
+# Babashka
+.babashka/
+
+# Generated files
+keywords_map.clj
+keywords.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
