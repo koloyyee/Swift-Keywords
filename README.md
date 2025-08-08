@@ -10,7 +10,7 @@ All Swift language keywords, syntax, and related concepts are the intellectual p
 Swift got over 200 keywords now here is table lookup for the keywords, definitions and where to use.
 
 **AI Disclaimer**:
-The definitions and where to use were researched with Gemini, if you find it inaccurate please create an issue.
+The definitions and where to use were researched with LLMs, if you find it inaccurate please create an issue.
 
 ---
 

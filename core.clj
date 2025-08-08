@@ -22,7 +22,7 @@
        "## Motivation\n"
        "Swift got over 200 keywords now here is table lookup for the keywords, definitions and where to use.\n\n"
        "**AI Disclaimer**:\n"
-       "The definitions and where to use were researched with Gemini, if you find it in accurate please create an issue.\n\n"
+       "The definitions and where to use were researched with LLMs, if you find it inaccurate please create an issue.\n\n"
        "---\n\n"))
 
 (defn  ^:private gen-toc-item
