@@ -1,4 +1,4 @@
-(ns keywords-map)
+(ns keywords-map-corrected)
 
 (def lookup-maps
   [{:kw "__consuming"
@@ -91,9 +91,9 @@
    {:kw "_RefCountedObject"
     :def "An internal type or attribute for generic reference-counted objects within the Swift runtime."
     :use "Internal Swift runtime; not for direct use."}
-   {:kw "specialized"
-    :def "Not a user-facing keyword. An internal compiler annotation indicating that a generic function or type has been specialized for specific type arguments."
-    :use "Internal compiler optimization. Appears in compiler output and debugging information but not written by developers."}
+   {:kw "_specialized"
+    :def "An attribute for internal compiler use, indicating that a function or type has been specialized for particular generic arguments to improve performance."
+    :use "Internal compiler optimization. Not directly used by developers."}
    {:kw "_specialize"
     :def "An attribute that suggests to the compiler to generate specialized versions of a generic function or type for specific types, potentially improving performance."
     :use "Advanced optimization, used on generic declarations, e.g., `@_specialize(where T == Int)`."}
@@ -137,8 +137,8 @@
     :def "A keyword used to represent an existential type, meaning 'some type that conforms to this protocol(s)'. It allows for type erasure."
     :use "Used as `any ProtocolName` (e.g., `func process(_ item: any Equatable)`) to indicate that a value is of some type that conforms to the specified protocol, rather than a concrete type."}
    {:kw "Any"
-    :def "A type that represents any type at all, including function types. It is the top type in Swift's type system."
-    :use "Used when you need to refer to an instance of *any* type, such as `func acceptsAny(_ value: Any)`. Consider using specific protocols or generics for better type safety."}
+    :def "A type alias for `any Protocol<...>` representing an instance of any type, including class, struct, enum, or other Swift types."
+    :use "Used when you need to refer to an instance of *any* type, such as `func acceptsAny(_ value: Any)`. Consider using `any Protocol` for more specific type erasure if possible."}
    {:kw "as"
     :def "A keyword used for type casting, to check the type of an instance or to downcast it to a more specific type."
     :use "Used for conditional casting (`if let someView = view as? UIView`) or forced casting (`let myInt = someValue as! Int`). Also used with `as!` for forced downcasting and `as Any` for upcasting to the `Any` type."}
@@ -161,11 +161,11 @@
     :def "An attribute used on a parameter in a function declaration to automatically wrap an expression into a closure, deferring its evaluation."
     :use "Apply to function parameters: `func logIfTrue(_ condition: @autoclosure () -> Bool)`. This allows you to pass an expression directly instead of a closure literal."}
    {:kw "availability"
-    :def "Not a keyword itself, but refers to the concept of API availability across different platforms and OS versions. Related to the `@available` attribute."
-    :use "Discussed in context of `@available` attributes: `@available(iOS 13.0, macOS 10.15, *)`."}
+    :def "An attribute used to specify the platforms and versions on which a declaration is available, deprecated, or obsoleted."
+    :use "Apply to declarations: `@available(iOS 13.0, macOS 10.15, *)`."}
    {:kw "available"
-    :def "A condition used in `#if available()` statements to check API availability at compile time, and also used within `@available` attributes."
-    :use "Used in availability checks: `#if available(iOS 13.0, *) { ... }` or in attributes: `@available(iOS 13.0, *)`."}>
+    :def "A keyword used within conditional compilation blocks to check the availability of APIs based on platform and version."
+    :use "Used in `#if available(...)` blocks to conditionally compile code based on API availability."}
    {:kw "await"
     :def "A keyword used within an `async` function to pause execution until an asynchronous operation completes, allowing other code to run."
     :use "Call an `async` function: `let data = await fetchData()`."}
@@ -203,10 +203,10 @@
     :def "A keyword used to explicitly consume a value, transferring its ownership. This marks the end of a value's lifetime from the perspective of the current scope."
     :use "Used with variable bindings to explicitly consume a value, making it unavailable for further use after the `consume` call. E.g., `let x = consume y` (experimental feature)."}
    {:kw "copy"
-    :def "Not a standalone keyword. A contextual modifier that can appear in specific contexts to indicate copy semantics."
-    :use "Rarely used directly in user code. May appear in property wrappers or specific ownership contexts."}
+    :def "A keyword used in property wrappers or accessors to specify that a copy of the wrapped value should be made when accessed."
+    :use "Used in property wrappers for copy-on-read semantics: `@propertyWrapper struct MyWrapper { @copy var wrappedValue: Int }`."}
    {:kw "consuming"
-    :def "A parameter modifier that indicates the function parameter consumes (takes ownership of) its argument, making it unavailable after the call."
+    :def "A contextual keyword that marks a function parameter as consuming its argument, indicating that the function takes ownership of the value and is responsible for its lifetime."
     :use "Used in function signatures for parameters that consume their arguments: `func process(_ item: consuming MyStruct)`. Particularly relevant for move-only types to ensure proper resource management."}
    {:kw "continue"
     :def "A control transfer statement that immediately ends the current iteration of a loop (`for`, `while`, `repeat-while`) and begins the next iteration."
@@ -251,8 +251,8 @@
     :def "A modifier that indicates a member (property, method, subscript) will be dispatched using Objective-C runtime dynamism, allowing for features like KVO and method swizzling."
     :use "Apply to class members that need Objective-C runtime behavior: `dynamic var myProperty: String`."}
    {:kw "each"
-    :def "A keyword used in parameter packs and variadic generics to indicate iteration over each element in a type or value pack."
-    :use "Used in parameter pack contexts: `func process<each T>(_ values: repeat each T)` where `repeat each T` expands the pack (experimental feature in Swift 5.9+)."}
+    :def "A keyword used in variadic generic programming to indicate a parameter pack or type pack that expands into multiple arguments or types."
+    :use "Used in generic contexts for type or value parameter packs: `func printAll<each T>(_ items: repeat each T) {}` (experimental feature)."}
    {:kw "else"
     :def "A keyword used with `if` statements to define a block of code that executes when the `if` condition is false."
     :use "Provide an alternative execution path: `if condition { ... } else { ... }`."}
@@ -287,8 +287,8 @@
     :def "A keyword used to create a loop that iterates over a sequence (e.g., array, range)."
     :use "Iterate over collections: `for item in collection { ... }`."}
    {:kw "discard"
-    :def "A keyword used to explicitly destroy an object without calling its deinitializer, useful for managing resources when you want to skip cleanup code."
-    :use "Used to destroy objects without deinitializer execution: `discard myObject`. Typically used in specialized resource management scenarios."}
+    :def "A keyword used to explicitly discard a value, often in combination with `_` to ignore a return value or an argument."
+    :use "Explicitly ignore a return value or binding: `_ = someFunctionThatReturnsAValue()` or `let _ = someOptional`."}
    {:kw "forward"
     :def "A concept related to forwarding calls or references. Not a keyword itself but can appear in internal attributes or discussions of dispatch."
     :use "Internal to compiler mechanisms, e.g., how `_dynamicReplacement` works."}
@@ -356,8 +356,8 @@
     :def "A keyword used to declare a constant, whose value cannot be changed after it is initialized."
     :use "Declare constants: `let pi = 3.14159`."}
    {:kw "line"
-    :def "A special literal that evaluates to the current line number in the source file where it appears."
-    :use "For debugging or logging: `print(\"Error on line: \\(#line)\")`. Note: use `#line`, not just `line`."}
+    :def "A literal expression that expands to the current line number in the source file."
+    :use "For debugging or logging: `print(\"Error on line: \\(#line)\")`."}
    {:kw "linear"
     :def "An experimental concept related to linear types, ensuring a value is used exactly once. Part of Swift's ongoing ownership evolution."
     :use "Experimental feature; not part of stable Swift. For advanced research and specific memory management patterns."}
@@ -374,11 +374,11 @@
     :def "Refers to runtime information about types. Not a keyword, but a concept frequently discussed in the context of Swift's runtime."
     :use "Internal to the Swift runtime for dynamic behavior and type introspection."}
    {:kw "modify"
-    :def "An accessor used in computed properties or subscripts to provide in-place mutation access. It must be used with `yield` to provide a mutable reference."
+    :def "An accessor used in computed properties or subscripts to provide an in-place mutation capability, often used with `yield`."
     :use "Define an in-place mutator for computed properties: `var value: Int { _read { yield _storage } _modify { yield &_storage } }` (advanced usage)."}
    {:kw "module"
-    :def "A namespace that groups related code together. Not a keyword itself, but a fundamental organizational concept in Swift."
-    :use "Referenced in conditional compilation: `#if canImport(ModuleName)` or when discussing code organization and imports."}
+    :def "Refers to a self-contained unit of code distribution. Not a keyword itself, but used in directives and concepts."
+    :use "In conditional compilation: `#if canImport(ModuleName)`."}
    {:kw "mutableAddressWithNativeOwner"
     :def "An internal function or concept related to obtaining a mutable memory address of a value, along with its native owner for memory management."
     :use "Internal compiler use for low-level memory access and mutation."}
@@ -407,8 +407,8 @@
     :def "A contextual keyword that specifies that an actor's method or property does not access the actor's isolated state and can be called from outside the actor without awaiting."
     :use "Mark actor members that don't need actor isolation: `nonisolated let id: UUID` or `nonisolated func printId()`."}
    {:kw "nonmutating"
-    :def "A modifier used with methods of value types to explicitly indicate that the method does not modify the instance, even when it conceptually could."
-    :use "Rarely used explicitly since it's the default. May appear in `nonmutating set` for computed properties: `var computed: Int { get { ... } nonmutating set { ... } }`."}
+    :def "A modifier used with methods or accessors of value types to explicitly state that the method or accessor does not modify the instance or its properties, even if it could conceptually."
+    :use "Define methods on value types that don't modify the instance: `nonmutating func describe() { print(self.name) }` (less common as this is the default for methods without `mutating`)."}
    {:kw "nonsending"
     :def "An internal attribute related to Swift's ownership model, indicating that a value is not 'sent' (i.e., its ownership is not transferred) through a particular operation."
     :use "Internal compiler use; not directly used by developers."}
@@ -452,8 +452,8 @@
     :def "An access control level that restricts the use of an entity to its defining declaration and to extensions of that declaration that are in the same file."
     :use "Limit visibility: `private var secretValue: String`."}
    {:kw "Protocol"
-    :def "The metatype for any protocol. It represents the type of a protocol itself, not an instance conforming to the protocol."
-    :use "When you need to refer to the protocol metatype: `let protocolType: Protocol = MyProtocol.self` or in function parameters that accept protocol types."}
+    :def "The type representing a protocol itself, used when referring to a protocol as a type (e.g., `P.self` for a protocol `P`)."
+    :use "When you need to refer to the protocol type itself: `func takesProtocolType(p: Protocol)`."}
    {:kw "protocol"
     :def "A keyword used to define a protocol, which is a blueprint of methods, properties, and other requirements that can be adopted by classes, structures, or enumerations."
     :use "Declare a protocol: `protocol MyProtocol { func doSomething() }`."}
@@ -461,26 +461,26 @@
     :def "An access control level that allows an entity to be used by code in any source file from its defining module and from any other module that imports the defining module."
     :use "Make entities accessible externally: `public class MyAPI { public func doSomething() {} }`."}
    {:kw "read"
-    :def "An accessor used in computed properties or subscripts to provide read-only access. It must be used with `yield` to provide the value."
+    :def "An accessor used in computed properties or subscripts to provide direct read access to an underlying value, often used with `yield`."
     :use "Define a getter for advanced property accessors: `var value: Int { _read { yield _storage } }` (advanced usage)."}
    {:kw "reasync"
-    :def "A function modifier indicating that the function is conditionally async - it's async only if its closure parameters are async."
+    :def "A contextual keyword used with `rethrows` to indicate that a function or closure is conditionally `async` based on whether its closure parameters are `async`."
     :use "Declare conditionally asynchronous functions: `func process<T>(_ block: () async throws -> T) reasync rethrows -> T`."}
    {:kw "renamed"
     :def "Used within the `@available` attribute to specify that a declaration has been renamed, providing a hint for migration."
     :use "Indicate API renaming: `@available(*, unavailable, renamed: \"newFunction\")`."}
    {:kw "repeat"
-    :def "A keyword used to create a `repeat-while` loop, or in parameter packs to expand each element of a pack."
-    :use "Loop with at least one iteration: `repeat { ... } while condition`. In parameter packs: `repeat each T` to expand the pack (experimental feature)."}
+    :def "A keyword used to create a `repeat-while` loop, which executes its code block at least once before checking its condition."
+    :use "Loop with at least one iteration: `repeat { ... } while condition`."}
    {:kw "required"
     :def "A modifier used with initializers in a class to ensure that every subclass of that class must implement that initializer."
     :use "Force subclass implementation of an initializer: `required init(coder: NSCoder) { ... }`."}
    {:kw "rethrows"
-    :def "A function modifier indicating that the function only throws an error if one of its closure parameters throws an error."
+    :def "A contextual keyword used with functions to indicate that the function will only throw an error if one of its closure parameters throws an error."
     :use "Declare conditionally throwing functions: `func map<T>(_ transform: (Element) throws -> T) rethrows -> [T]`."}
    {:kw "retroactive"
-    :def "An attribute used with protocol conformances to indicate that the conformance is being added retroactively (after the type or protocol was originally defined)."
-    :use "Mark retroactive protocol conformances: `extension MyType: @retroactive MyProtocol { ... }` (library evolution feature)."}
+    :def "An attribute used on protocol conformances in extensions to indicate that the conformance was added later (retroactively) and affects how the type interacts with the protocol."
+    :use "Mark retroactive protocol conformances: `extension MyType: MyProtocol (retroactive) { ... }` (advanced usage for library evolution)."}
    {:kw "return"
     :def "A control transfer statement that immediately ends the execution of a function or method and returns a value (if any) to the caller."
     :use "Exit a function and optionally return a value: `return result`."}
@@ -503,8 +503,8 @@
     :def "A contextual keyword that signifies a parameter or binding is 'sending' a value, meaning its ownership is transferred or consumed. This is part of Swift's explicit ownership features."
     :use "Used with variable bindings to explicitly transfer ownership of a value. E.g., `let x = sending y` (experimental feature)."}
    {:kw "Self"
-    :def "A type alias that refers to the type of the current instance within a type definition. In protocols, it refers to the concrete conforming type; in types, it refers to that specific type."
-    :use "In protocols: `static func factory() -> Self`. In class/struct methods: `func copy() -> Self`. Also used with `type(of: self)` which returns `Self.Type`."}
+    :def "Refers to the *type* of the current instance in a protocol or class context. In a protocol, it refers to the concrete type that conforms to the protocol. In a class, it refers to the exact class type of the current instance."
+    :use "In protocols: `static func factory() -> Self`. In classes: `let typeOfInstance = type(of: self)`."}
    {:kw "Sendable"
     :def "A marker protocol that indicates a type can be safely shared across different concurrency domains (e.g., between actors or tasks) without requiring synchronization."
     :use "Conform types to `Sendable` if they are immutable or provide their own synchronization: `struct MyData: Sendable { ... }`."}
@@ -512,8 +512,8 @@
     :def "An accessor used within a computed property or subscript to define the code that sets the property's value."
     :use "Define a setter: `var myProperty: Int { get { return _value } set { _value = newValue } }`."}
    {:kw "some"
-    :def "A keyword used to declare an opaque return type, indicating that a function returns a specific concrete type that conforms to the given protocol, but the exact type is hidden from the caller."
-    :use "Declare opaque return types: `func makeView() -> some View { ... }`. The caller knows the returned type conforms to `View` but not the specific concrete type."}
+    :def "A keyword used to declare an *opaque type*, meaning a function or property returns a specific type that conforms to a given protocol, but the exact concrete type is not exposed to the caller."
+    :use "Declare opaque return types: `func makeView() -> some View { ... }`."}
    {:kw "spi"
     :def "Short for 'System Programming Interface'. Not a keyword, but a term used in attributes like `_spi_available` to denote APIs intended for specific system-level clients rather than public use."
     :use "Discussing internal framework APIs or in attributes like `@_spi_available`."}
@@ -557,10 +557,10 @@
     :def "A keyword representing the boolean literal value `true`."
     :use "Used for boolean expressions and assignments: `let isActive = true`."}
    {:kw "try"
-    :def "A keyword used to call a function that can throw an error. It has three variants: `try` (propagates errors), `try?` (converts errors to nil), and `try!` (force-unwraps, crashes on error)."
+    :def "A keyword used to call a throwing function. It comes in three forms: `try` (propagate error), `try?` (convert error to optional), and `try!` (force unwrap error)."
     :use "Call throwing functions: `try someThrowingFunction()`, `let result = try? someThrowingFunction()`, `let result = try! someThrowingFunction()`."}
    {:kw "Type"
-    :def "A suffix that creates a metatype. For any type `T`, `T.Type` represents the type of the type itself, allowing you to pass types as values."
+    :def "The metatype type for a given type `T`, denoted `T.Type`. Used to refer to the type itself as a value."
     :use "Refer to a type as a value: `let intType: Int.Type = Int.self`. Used in generics: `func createInstance<T>(_ type: T.Type) -> T`."}
    {:kw "typealias"
     :def "A keyword used to define an alias (an alternative name) for an existing type."
@@ -569,14 +569,14 @@
     :def "Used within the `@available` attribute to mark a declaration as unavailable on a particular platform or version."
     :use "Mark an API as unavailable: `@available(macOS, unavailable)`."}
    {:kw "unchecked"
-    :def "An attribute that can be used to bypass certain safety checks. Most commonly seen in `@unchecked Sendable` to indicate manual thread safety guarantees."
-    :use "Mark types as Sendable without compiler verification: `struct MyType: @unchecked Sendable { ... }`. Use only when you can guarantee thread safety manually."}
+    :def "An attribute used with enum cases that are raw representable, allowing for unchecked conversion from a raw value, bypassing validation. This can be unsafe."
+    :use "Used in specific contexts for performance where validation is guaranteed elsewhere: `@unchecked enum MyEnum: Int { ... }`."}
    {:kw "unowned"
     :def "A keyword used to define an unowned reference to an instance. An unowned reference does not keep a strong hold on the instance it refers to and is used when the other instance has the same or a longer lifetime."
     :use "Break strong reference cycles when both objects will always have a value: `unowned let delegate: MyDelegate`."}
    {:kw "unsafe"
-    :def "A prefix commonly used with types and functions that bypass Swift's memory safety guarantees, requiring manual memory management."
-    :use "Used with unsafe pointer types and operations: `UnsafePointer`, `UnsafeMutablePointer`, `unsafeBitCast`. Requires careful manual memory management."}
+    :def "A keyword that often precedes operations or types that involve direct memory manipulation or bypass Swift's safety checks, indicating potential for undefined behavior."
+    :use "Used with pointers and raw memory: `unsafeBitCast`, `UnsafePointer`."}
    {:kw "unsafeAddress"
     :def "An internal function or concept related to obtaining an unsafe, raw memory address of a value."
     :use "Internal compiler use for very low-level memory operations."}
