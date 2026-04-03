@@ -6,13 +6,15 @@
 
 (ns core
   (:require
-   [clojure.string :as str]))
+   [clojure.string :as str]
+   [keywords-map :refer [lookup-maps]]
+   [scrape :refer [find-missing-kws]]))
 
 (def  ^:private kw-file "keywords.txt")
 (def  ^:private readme "README.md")
 (def  ^:private keywords-map-file "keywords_map.clj")
 
-(def  ^:private keywords-vec (str/split  (slurp kw-file) #"\n"))
+(def   keywords-vec (str/split  (slurp kw-file) #"\n"))
 
 (def  ^:private readme-header
   (str "# Swift Keywords\n"
@@ -48,17 +50,53 @@
    "| Keyword | Definition | Where to use? |\n"
    "|----------|----------|----------|\n"))
 
+(seq? (find-missing-kws (map :kw lookup-maps)))
+
+(defn is-file-empty [file-path]
+  (let [content (slurp file-path :encoding "UTF-8")]
+    (empty? content)))
+
+(is-file-empty keywords-map-file)
 
 (defn  ^:private gen-lookup-placeholder
   "Generate keywords_map.clj file for contribution"
   [kws]
-  (spit keywords-map-file
-        (str "(ns keywords-map)\n"
-             "(def lookup-maps \n [\n"
-             (str/join "\n"
-                       (map #(format "{:kw \"%s\" :def \"\" :use \"\"}" %) kws))
-             "]\n)")))
-#_(gen-lookup-placeholder keywords-vec)
+
+  (if (is-file-empty keywords-map-file)
+    (spit keywords-map-file
+          (str "(ns keywords-map)\n"
+               "(def lookup-maps \n [\n"
+               (str/join "\n"
+                         (map #(format "{:kw \"%s\" :def \"\" :use \"\"}" %) kws))
+               "]\n)"))
+    (let [existing (map :kw lookup-maps)
+          diff-kws (find-missing-kws existing)
+          ;; when diff-kws not empty, 
+          ;; kws (if (seq diff-kws)
+          ;;       (concat lookup-maps (map (fn [k] {:kw k :def "" :use ""}) diff-kws))
+          ;;       lookup-maps)
+          ;; sorted-kws (sort-by :kw kws)
+          kws (->> diff-kws
+               (map (fn [k] {:kw k :def "" :use ""}))
+               (concat lookup-maps)
+               vec
+               (sort-by :kw))]
+      (spit keywords-map-file
+            (str "(ns keywords-map)\n"
+                 "(def lookup-maps \n "
+                 (vec kws)
+                 ")")))))
+
+(let [existing (map :kw lookup-maps)
+      diff-kws (find-missing-kws existing)]
+  (->> diff-kws
+       (map (fn [k] {:kw k :def "" :use ""}))
+       (concat lookup-maps)
+       vec
+       (sort-by :kw)))
+
+;; (gen-lookup-placeholder keywords-vec)
+
 
 
 (defn  ^:private gen-row [kw-map]
@@ -69,7 +107,6 @@
 
 ;; importing keywords-map vector values
 (load-file keywords-map-file)
-(require '[keywords-map :refer [lookup-maps]])
 (def rows (str/join (gen-rows lookup-maps)))
 #_rows
 
