@@ -7,23 +7,36 @@ All Swift language keywords, syntax, and related concepts are the intellectual p
 ---
 
 ## Motivation
-Swift got over 200 keywords now, here is a table lookup for the keywords, definitions and where to use.
+Swift got over 200 keywords now here is table lookup for the keywords, definitions and where to use.
 
 **AI Disclaimer**:
 The definitions and where to use were researched with LLMs, if you find it inaccurate please create an issue.
 
 ---
 
-## Keywords Table of Contents
-[__consuming](#__consuming)
+## Keywords Table of Content
+[Any](#Any)
+, [Protocol](#Protocol)
+, [Self](#Self)
+, [Sendable](#Sendable)
+, [Type](#Type)
+, [_BridgeObject](#_BridgeObject)
+, [_Class](#_Class)
+, [_NativeClass](#_NativeClass)
+, [_NativeRefCountedObject](#_NativeRefCountedObject)
+, [_PackageDescription](#_PackageDescription)
+, [_RefCountedObject](#_RefCountedObject)
+, [_Trivial](#_Trivial)
+, [_TrivialAtMost](#_TrivialAtMost)
+, [_TrivialStride](#_TrivialStride)
+, [_UnknownLayout](#_UnknownLayout)
+, [__consuming](#__consuming)
 , [__owned](#__owned)
 , [__setter_access](#__setter_access)
 , [__shared](#__shared)
 , [_backDeploy](#_backDeploy)
 , [_borrow](#_borrow)
 , [_borrowing](#_borrowing)
-, [_BridgeObject](#_BridgeObject)
-, [_Class](#_Class)
 , [_compilerInitialized](#_compilerInitialized)
 , [_const](#_const)
 , [_consuming](#_consuming)
@@ -37,22 +50,13 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [_modify](#_modify)
 , [_move](#_move)
 , [_mutating](#_mutating)
-, [_NativeClass](#_NativeClass)
-, [_NativeRefCountedObject](#_NativeRefCountedObject)
 , [_noMetadata](#_noMetadata)
 , [_opaqueReturnTypeOf](#_opaqueReturnTypeOf)
 , [_originallyDefinedIn](#_originallyDefinedIn)
-, [_PackageDescription](#_PackageDescription)
 , [_read](#_read)
-, [_RefCountedObject](#_RefCountedObject)
-, [specialized](#specialized)
 , [_specialize](#_specialize)
 , [_spi_available](#_spi_available)
-, [_Trivial](#_Trivial)
-, [_TrivialAtMost](#_TrivialAtMost)
-, [_TrivialStride](#_TrivialStride)
 , [_underlyingVersion](#_underlyingVersion)
-, [_UnknownLayout](#_UnknownLayout)
 , [_version](#_version)
 , [abi](#abi)
 , [accesses](#accesses)
@@ -60,7 +64,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [addressWithNativeOwner](#addressWithNativeOwner)
 , [addressWithOwner](#addressWithOwner)
 , [any](#any)
-, [Any](#Any)
 , [as](#as)
 , [assignment](#assignment)
 , [associatedtype](#associatedtype)
@@ -78,16 +81,16 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [borrowing](#borrowing)
 , [break](#break)
 , [canImport](#canImport)
-, [](#)
+, [case](#case)
 , [catch](#catch)
 , [class](#class)
 , [compiler](#compiler)
 , [consume](#consume)
-, [copy](#copy)
 , [consuming](#consuming)
 , [continue](#continue)
 , [convenience](#convenience)
 , [convention](#convention)
+, [copy](#copy)
 , [default](#default)
 , [defer](#defer)
 , [deinit](#deinit)
@@ -96,6 +99,7 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [derivative](#derivative)
 , [didSet](#didSet)
 , [differentiable](#differentiable)
+, [discard](#discard)
 , [distributed](#distributed)
 , [do](#do)
 , [dynamic](#dynamic)
@@ -111,10 +115,9 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [fileprivate](#fileprivate)
 , [final](#final)
 , [for](#for)
-, [discard](#discard)
 , [forward](#forward)
-, [func](#func)
 , [freestanding](#freestanding)
+, [func](#func)
 , [get](#get)
 , [guard](#guard)
 , [higherThan](#higherThan)
@@ -144,10 +147,11 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [module](#module)
 , [mutableAddressWithNativeOwner](#mutableAddressWithNativeOwner)
 , [mutableAddressWithOwner](#mutableAddressWithOwner)
+, [mutate](#mutate)
 , [mutating](#mutating)
 , [nil](#nil)
-, [noasync](#noasync)
 , [noDerivative](#noDerivative)
+, [noasync](#noasync)
 , [noescape](#noescape)
 , [none](#none)
 , [nonisolated](#nonisolated)
@@ -166,7 +170,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [preconcurrency](#preconcurrency)
 , [prefix](#prefix)
 , [private](#private)
-, [Protocol](#Protocol)
 , [protocol](#protocol)
 , [public](#public)
 , [read](#read)
@@ -183,10 +186,9 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [scoped](#scoped)
 , [self](#self)
 , [sending](#sending)
-, [Self](#Self)
-, [Sendable](#Sendable)
 , [set](#set)
 , [some](#some)
+, [specialized](#specialized)
 , [spi](#spi)
 , [spiModule](#spiModule)
 , [static](#static)
@@ -202,7 +204,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [transpose](#transpose)
 , [true](#true)
 , [try](#try)
-, [Type](#Type)
 , [typealias](#typealias)
 , [unavailable](#unavailable)
 , [unchecked](#unchecked)
@@ -219,9 +220,25 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 , [willSet](#willSet)
 , [wrt](#wrt)
 , [yield](#yield)
+, [yielding](#yielding)
 ## Look Up Table
 | Keyword | Definition | Where to use? |
 |----------|----------|----------|
+|<p id='Any'>Any<p>|A type that represents any type at all, including function types. It is the top type in Swift's type system.	|Used when you need to refer to an instance of *any* type, such as `func acceptsAny(_ value: Any)`. Consider using specific protocols or generics for better type safety.	|
+|<p id='Protocol'>Protocol<p>|The metatype for any protocol. It represents the type of a protocol itself, not an instance conforming to the protocol.	|When you need to refer to the protocol metatype: `let protocolType: Protocol = MyProtocol.self` or in function parameters that accept protocol types.	|
+|<p id='Self'>Self<p>|A type alias that refers to the type of the current instance within a type definition. In protocols, it refers to the concrete conforming type; in types, it refers to that specific type.	|In protocols: `static func factory() -> Self`. In class/struct methods: `func copy() -> Self`. Also used with `type(of: self)` which returns `Self.Type`.	|
+|<p id='Sendable'>Sendable<p>|A marker protocol that indicates a type can be safely shared across different concurrency domains (e.g., between actors or tasks) without requiring synchronization.	|Conform types to `Sendable` if they are immutable or provide their own synchronization: `struct MyData: Sendable { ... }`.	|
+|<p id='Type'>Type<p>|A suffix that creates a metatype. For any type `T`, `T.Type` represents the type of the type itself, allowing you to pass types as values.	|Refer to a type as a value: `let intType: Int.Type = Int.self`. Used in generics: `func createInstance<T>(_ type: T.Type) -> T`.	|
+|<p id='_BridgeObject'>_BridgeObject<p>|An internal type used for bridging between Swift and Objective-C objects when specific ownership or reference counting semantics are required.	|Internal Swift runtime; not intended for direct use.	|
+|<p id='_Class'>_Class<p>|An internal attribute or type used to represent a class type at the SIL (Swift Intermediate Language) level.	|Internal compiler use; not directly exposed to Swift developers.	|
+|<p id='_NativeClass'>_NativeClass<p>|An internal type or attribute related to Objective-C interoperability, specifically for types that are pure Swift classes but have Objective-C runtime characteristics.	|Internal Swift runtime and Objective-C bridging; not for direct use.	|
+|<p id='_NativeRefCountedObject'>_NativeRefCountedObject<p>|An internal type or attribute for objects that are reference-counted directly by the Swift runtime, typically for internal data structures.	|Internal Swift runtime; not for direct use.	|
+|<p id='_PackageDescription'>_PackageDescription<p>|A module or internal identifier related to the Swift Package Manager's manifest file.	|Internal to SwiftPM; you import `PackageDescription` in `Package.swift`.	|
+|<p id='_RefCountedObject'>_RefCountedObject<p>|An internal type or attribute for generic reference-counted objects within the Swift runtime.	|Internal Swift runtime; not for direct use.	|
+|<p id='_Trivial'>_Trivial<p>|An internal attribute for types that are 'trivial' in terms of memory management (e.g., no reference counting needed), allowing for certain optimizations.	|Internal compiler use; not for direct use.	|
+|<p id='_TrivialAtMost'>_TrivialAtMost<p>|An internal attribute used to specify the maximum size for a type to be considered trivial for optimization purposes.	|Internal compiler use; not for direct use.	|
+|<p id='_TrivialStride'>_TrivialStride<p>|An internal attribute related to the memory stride of trivial types.	|Internal compiler use; not for direct use.	|
+|<p id='_UnknownLayout'>_UnknownLayout<p>|An internal attribute for types whose memory layout is not known at compile time, typically for opaque types or when interacting with C types.	|Internal compiler use; not for direct use.	|
 |<p id='__consuming'>__consuming<p>|An internal attribute used for parameters that consume their argument. This is part of Swift's ownership model for optimizing memory.	|Primarily for internal compiler and standard library use; not typically used directly by application developers.	|
 |<p id='__owned'>__owned<p>|An internal attribute similar to `__consuming`, indicating that a parameter takes ownership of its argument.	|Internal compiler and standard library use; rarely, if ever, used directly in application code.	|
 |<p id='__setter_access'>__setter_access<p>|An internal attribute related to controlling access to a setter.	|Internal compiler use, especially in synthesized code or for specific access control mechanisms.	|
@@ -229,8 +246,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='_backDeploy'>_backDeploy<p>|An attribute to mark a function or type as back-deployable, allowing it to be used on older OS versions than the one it was compiled with.	|Apply to declarations (`@_backDeploy(before: OSVersion)`) when you want to make new API available on older OS versions by compiling a separate, older version of the code into your binary.	|
 |<p id='_borrow'>_borrow<p>|An internal attribute related to borrowing values, often used in conjunction with move-only types or strict concurrency.	|Primarily internal to the compiler and standard library for managing value lifetimes and ownership. Not for general use.	|
 |<p id='_borrowing'>_borrowing<p>|An internal attribute that signifies a parameter or binding is borrowing a value. It's related to Swift's ownership features, ensuring values are not implicitly copied.	|Internal compiler use, especially with explicit ownership management and strict concurrency features. Not typically used directly.	|
-|<p id='_BridgeObject'>_BridgeObject<p>|An internal type used for bridging between Swift and Objective-C objects when specific ownership or reference counting semantics are required.	|Internal Swift runtime; not intended for direct use.	|
-|<p id='_Class'>_Class<p>|An internal attribute or type used to represent a class type at the SIL (Swift Intermediate Language) level.	|Internal compiler use; not directly exposed to Swift developers.	|
 |<p id='_compilerInitialized'>_compilerInitialized<p>|An internal attribute for properties that are guaranteed to be initialized by the compiler.	|Internal compiler use for specific optimizations and guarantees.	|
 |<p id='_const'>_const<p>|An experimental attribute indicating that a function or property is 'constant' or 'pure', meaning it produces the same output for the same input and has no side effects.	|Experimental feature; may be used on functions or properties where referential transparency is desired for compiler optimizations.	|
 |<p id='_consuming'>_consuming<p>|An internal attribute indicating that a parameter consumes its argument, transferring ownership. This is a lower-level ownership control than the `consuming` keyword.	|Internal compiler use for fine-grained ownership management.	|
@@ -244,22 +259,13 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='_modify'>_modify<p>|An internal accessor that provides in-place mutation of a value, used in contexts like computed properties with `_read` and `_modify` accessors.	|Internal to how Swift implements certain mutable access patterns; not directly written by developers as an accessor keyword. You'd typically use `get` and `set` or `didSet`/`willSet`.	|
 |<p id='_move'>_move<p>|An experimental keyword or attribute for explicitly moving a value, transferring ownership without copying. Part of Swift's ownership manifesto.	|Experimental feature; not part of stable Swift. For explicit ownership transfer with move-only types.	|
 |<p id='_mutating'>_mutating<p>|An internal modifier that signifies a method modifies the instance it's called on. This is the underlying mechanism for the `mutating` keyword.	|Internal compiler use; developers use the `mutating` keyword directly.	|
-|<p id='_NativeClass'>_NativeClass<p>|An internal type or attribute related to Objective-C interoperability, specifically for types that are pure Swift classes but have Objective-C runtime characteristics.	|Internal Swift runtime and Objective-C bridging; not for direct use.	|
-|<p id='_NativeRefCountedObject'>_NativeRefCountedObject<p>|An internal type or attribute for objects that are reference-counted directly by the Swift runtime, typically for internal data structures.	|Internal Swift runtime; not for direct use.	|
 |<p id='_noMetadata'>_noMetadata<p>|An internal attribute for types that do not require runtime metadata, often for performance optimizations.	|Internal compiler optimization; not for general use.	|
 |<p id='_opaqueReturnTypeOf'>_opaqueReturnTypeOf<p>|An internal function or attribute used to represent the opaque return type of an `some Protocol` declaration at a lower level.	|Internal compiler use for `some` opaque types; not for direct invocation.	|
 |<p id='_originallyDefinedIn'>_originallyDefinedIn<p>|An attribute used by the compiler to track where a declaration was originally defined, which is important for module stability and ABI.	|Internal compiler use, especially for library evolution. Not something you'd typically write.	|
-|<p id='_PackageDescription'>_PackageDescription<p>|A module or internal identifier related to the Swift Package Manager's manifest file.	|Internal to SwiftPM; you import `PackageDescription` in `Package.swift`.	|
 |<p id='_read'>_read<p>|An internal accessor for computed properties that provides direct read access to a stored value or computes one. Used in conjunction with `_modify` for optimized access.	|Internal to how Swift implements optimized property access; not directly written by developers as an accessor keyword. You'd typically use `get`.	|
-|<p id='_RefCountedObject'>_RefCountedObject<p>|An internal type or attribute for generic reference-counted objects within the Swift runtime.	|Internal Swift runtime; not for direct use.	|
-|<p id='specialized'>specialized<p>|Not a user-facing keyword. An internal compiler annotation indicating that a generic function or type has been specialized for specific type arguments.	|Internal compiler optimization. Appears in compiler output and debugging information but not written by developers.	|
 |<p id='_specialize'>_specialize<p>|An attribute that suggests to the compiler to generate specialized versions of a generic function or type for specific types, potentially improving performance.	|Advanced optimization, used on generic declarations, e.g., `@_specialize(where T == Int)`.	|
 |<p id='_spi_available'>_spi_available<p>|An attribute that marks an API as available only for specific 'System Programming Interface' (SPI) clients, meaning it's not public API but can be used by certain modules.	|Used by framework developers to expose APIs to other internal frameworks or specific system components without making them generally public. Example: `@_spi_available(MyInternalModule, introduced: 1.0)`.	|
-|<p id='_Trivial'>_Trivial<p>|An internal attribute for types that are 'trivial' in terms of memory management (e.g., no reference counting needed), allowing for certain optimizations.	|Internal compiler use; not for direct use.	|
-|<p id='_TrivialAtMost'>_TrivialAtMost<p>|An internal attribute used to specify the maximum size for a type to be considered trivial for optimization purposes.	|Internal compiler use; not for direct use.	|
-|<p id='_TrivialStride'>_TrivialStride<p>|An internal attribute related to the memory stride of trivial types.	|Internal compiler use; not for direct use.	|
 |<p id='_underlyingVersion'>_underlyingVersion<p>|An internal attribute used to track the underlying version of an API, often in the context of ABI stability and back deployment.	|Internal compiler use for library evolution; not directly used by developers.	|
-|<p id='_UnknownLayout'>_UnknownLayout<p>|An internal attribute for types whose memory layout is not known at compile time, typically for opaque types or when interacting with C types.	|Internal compiler use; not for direct use.	|
 |<p id='_version'>_version<p>|An internal attribute used to mark the version of a declaration, often for ABI compatibility or deprecation tracking.	|Internal compiler use for library evolution; not directly used by developers.	|
 |<p id='abi'>abi<p>|Refers to Application Binary Interface. Not a keyword itself, but a concept frequently discussed in the context of Swift's long-term stability goals, especially with library evolution.	|Used in discussions and documentation about Swift's binary compatibility guarantees across different versions.	|
 |<p id='accesses'>accesses<p>|A compiler-internal concept related to how a property or function accesses memory, used for optimization and strict concurrency checking.	|Primarily internal to the compiler's analysis; not a keyword you'd write directly.	|
@@ -267,7 +273,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='addressWithNativeOwner'>addressWithNativeOwner<p>|An internal function or concept related to obtaining the memory address of a value, along with its native owner for memory management.	|Internal compiler use, especially when dealing with low-level memory access or interoperability with C/C++.	|
 |<p id='addressWithOwner'>addressWithOwner<p>|An internal function or concept related to obtaining the memory address of a value, along with its owner for memory management.	|Internal compiler use, especially when dealing with low-level memory access or interoperability.	|
 |<p id='any'>any<p>|A keyword used to represent an existential type, meaning 'some type that conforms to this protocol(s)'. It allows for type erasure.	|Used as `any ProtocolName` (e.g., `func process(_ item: any Equatable)`) to indicate that a value is of some type that conforms to the specified protocol, rather than a concrete type.	|
-|<p id='Any'>Any<p>|A type that represents any type at all, including function types. It is the top type in Swift's type system.	|Used when you need to refer to an instance of *any* type, such as `func acceptsAny(_ value: Any)`. Consider using specific protocols or generics for better type safety.	|
 |<p id='as'>as<p>|A keyword used for type casting, to check the type of an instance or to downcast it to a more specific type.	|Used for conditional casting (`if let someView = view as? UIView`) or forced casting (`let myInt = someValue as! Int`). Also used with `as!` for forced downcasting and `as Any` for upcasting to the `Any` type.	|
 |<p id='assignment'>assignment<p>|Refers to the act of giving a value to a variable or constant. It's not a keyword itself but a fundamental operation.	|Used in general programming terminology: `let x = 10` is an assignment.	|
 |<p id='associatedtype'>associatedtype<p>|A keyword used within a protocol definition to declare a placeholder name for a type that is used as part of the protocol.	|Define a type requirement within a protocol: `protocol Container { associatedtype Item }`.	|
@@ -285,15 +290,16 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='borrowing'>borrowing<p>|A contextual keyword that marks a function parameter as borrowing its argument, ensuring the argument's lifetime is managed by the caller and not consumed by the function.	|Used in function signatures for parameters that are implicitly borrowed: `func process(_ item: borrowing MyStruct)`. Particularly relevant for move-only types.	|
 |<p id='break'>break<p>|A control transfer statement that immediately terminates the execution of a loop (`for`, `while`, `repeat-while`) or a `switch` statement.	|Exit a loop or `switch` statement prematurely: `break`.	|
 |<p id='canImport'>canImport<p>|A conditional compilation directive that checks if a module can be imported.	|Used in `#if canImport(ModuleName)` to conditionally compile code based on the availability of a module.	|
+|<p id='case'>case<p>|A keyword used to define individual cases in a `switch` statement, an `enum` definition, or to perform pattern matching in `if case` and `for case` loops.	|Within `switch` statements (`case 1: ...`), `enum` declarations (`case north`), or conditional pattern matching (`if case .success(let value) = result`).	|
 |<p id='catch'>catch<p>|A keyword used in `do-catch` statements to handle errors thrown by functions or methods.	|Handle errors: `do { try someThrowingFunction() } catch { ... }`.	|
 |<p id='class'>class<p>|A keyword used to define a class, a reference type that supports inheritance and polymorphism.	|Declare a class: `class MyClass { ... }`.	|
 |<p id='compiler'>compiler<p>|Refers to the Swift compiler. Not a keyword, but a term used in directives or attributes related to compiler behavior.	|Used in conditional compilation directives like `#if compiler(>=5.0)` or in attributes like `@_compilerInitialized`.	|
 |<p id='consume'>consume<p>|A keyword used to explicitly consume a value, transferring its ownership. This marks the end of a value's lifetime from the perspective of the current scope.	|Used with variable bindings to explicitly consume a value, making it unavailable for further use after the `consume` call. E.g., `let x = consume y` (experimental feature).	|
-|<p id='copy'>copy<p>|Not a standalone keyword. A contextual modifier that can appear in specific contexts to indicate copy semantics.	|Rarely used directly in user code. May appear in property wrappers or specific ownership contexts.	|
 |<p id='consuming'>consuming<p>|A parameter modifier that indicates the function parameter consumes (takes ownership of) its argument, making it unavailable after the call.	|Used in function signatures for parameters that consume their arguments: `func process(_ item: consuming MyStruct)`. Particularly relevant for move-only types to ensure proper resource management.	|
 |<p id='continue'>continue<p>|A control transfer statement that immediately ends the current iteration of a loop (`for`, `while`, `repeat-while`) and begins the next iteration.	|Skip to the next iteration of a loop: `continue`.	|
 |<p id='convenience'>convenience<p>|A modifier used with initializers within a class to denote an initializer that calls another initializer from the same class, ultimately delegating to a designated initializer.	|Declare a convenience initializer: `convenience init(...) { self.init(...) }`.	|
 |<p id='convention'>convention<p>|An attribute used with function types to specify the calling convention (e.g., Swift, C, block, thin).	|Specify calling convention for function pointers or closures: `var myFunc: @convention(c) (Int) -> Void`.	|
+|<p id='copy'>copy<p>|Not a standalone keyword. A contextual modifier that can appear in specific contexts to indicate copy semantics.	|Rarely used directly in user code. May appear in property wrappers or specific ownership contexts.	|
 |<p id='default'>default<p>|A keyword used in `switch` statements to provide a fallback case for any values not matched by other `case` statements.	|Provide a default case in a `switch`: `default: // handle all other cases`.	|
 |<p id='defer'>defer<p>|A keyword used to execute a block of code just before the current scope exits, regardless of how the exit occurs (e.g., return, throw, fall through).	|Ensure cleanup code runs: `defer { cleanUpResources() }`.	|
 |<p id='deinit'>deinit<p>|A keyword used to define a deinitializer, which is called automatically just before a class instance is deallocated.	|Implement cleanup logic for class instances: `deinit { // perform cleanup }`.	|
@@ -302,6 +308,7 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='derivative'>derivative<p>|An attribute related to automatic differentiation, marking a function as having a derivative or defining its derivative.	|Used in machine learning contexts with Swift for TensorFlow: `@derivative(of: f)`.	|
 |<p id='didSet'>didSet<p>|A property observer that is called immediately after a property's value has been set.	|Execute code after a property's value changes: `var myProperty: Int { didSet { print("Value changed") } }`.	|
 |<p id='differentiable'>differentiable<p>|An attribute used to mark a function or type as differentiable, meaning its derivatives can be computed automatically.	|Used in machine learning contexts with Swift for TensorFlow: `@differentiable`.	|
+|<p id='discard'>discard<p>|A keyword used to explicitly destroy an object without calling its deinitializer, useful for managing resources when you want to skip cleanup code.	|Used to destroy objects without deinitializer execution: `discard myObject`. Typically used in specialized resource management scenarios.	|
 |<p id='distributed'>distributed<p>|A keyword used to declare a distributed actor or distributed function, enabling communication between actors across different processes or machines.	|Define distributed actors: `distributed actor MyDistributedActor { ... }`.	|
 |<p id='do'>do<p>|A keyword used in `do-catch` statements to define a block of code that can throw errors.	|Mark a throwing context: `do { try someThrowingFunction() }`.	|
 |<p id='dynamic'>dynamic<p>|A modifier that indicates a member (property, method, subscript) will be dispatched using Objective-C runtime dynamism, allowing for features like KVO and method swizzling.	|Apply to class members that need Objective-C runtime behavior: `dynamic var myProperty: String`.	|
@@ -317,10 +324,9 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='fileprivate'>fileprivate<p>|An access control level that restricts the use of an entity to its defining source file.	|Apply to declarations to limit visibility: `fileprivate func helperFunction() { ... }`.	|
 |<p id='final'>final<p>|A modifier that prevents a class from being subclassed or an overridden member (method, property, subscript) from being overridden again.	|Prevent inheritance or overriding: `final class MyClass { ... }` or `final func myMethod() { ... }`.	|
 |<p id='for'>for<p>|A keyword used to create a loop that iterates over a sequence (e.g., array, range).	|Iterate over collections: `for item in collection { ... }`.	|
-|<p id='discard'>discard<p>|A keyword used to explicitly destroy an object without calling its deinitializer, useful for managing resources when you want to skip cleanup code.	|Used to destroy objects without deinitializer execution: `discard myObject`. Typically used in specialized resource management scenarios.	|
 |<p id='forward'>forward<p>|A concept related to forwarding calls or references. Not a keyword itself but can appear in internal attributes or discussions of dispatch.	|Internal to compiler mechanisms, e.g., how `_dynamicReplacement` works.	|
-|<p id='func'>func<p>|A keyword used to declare a function, which is a named, self-contained block of code that performs a specific task.	|Define functions: `func sayHello() { print("Hello") }`.	|
 |<p id='freestanding'>freestanding<p>|An attribute used with macros, indicating that a macro can be called independently without being attached to a specific declaration.	|Used in macro definitions, e.g., `@freestanding(expression)`. Not used in general Swift code.	|
+|<p id='func'>func<p>|A keyword used to declare a function, which is a named, self-contained block of code that performs a specific task.	|Define functions: `func sayHello() { print("Hello") }`.	|
 |<p id='get'>get<p>|An accessor used within a computed property, subscript, or getter-only property to define the code that retrieves the property's value.	|Define a getter: `var myProperty: Int { get { return 10 } }`.	|
 |<p id='guard'>guard<p>|A statement that requires a condition to be true in order to continue execution. If the condition is false, the `else` block is executed, which must exit the current scope.	|Early exit for conditions: `guard let value = optional else { return }`.	|
 |<p id='higherThan'>higherThan<p>|Used in `precedencegroup` declarations to specify that the current precedence group has higher precedence than another specified group.	|Define operator precedence: `precedencegroup MyPrecedenceGroup { higherThan: OtherPrecedenceGroup }`.	|
@@ -350,10 +356,11 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='module'>module<p>|A namespace that groups related code together. Not a keyword itself, but a fundamental organizational concept in Swift.	|Referenced in conditional compilation: `#if canImport(ModuleName)` or when discussing code organization and imports.	|
 |<p id='mutableAddressWithNativeOwner'>mutableAddressWithNativeOwner<p>|An internal function or concept related to obtaining a mutable memory address of a value, along with its native owner for memory management.	|Internal compiler use for low-level memory access and mutation.	|
 |<p id='mutableAddressWithOwner'>mutableAddressWithOwner<p>|An internal function or concept related to obtaining a mutable memory address of a value, along with its owner for memory management.	|Internal compiler use for low-level memory access and mutation.	|
+|<p id='mutate'>mutate<p>|A keyword (mutating) used in value types to permit a method to modify the instance's own properties or reassign self.	|In a struct: `mutating func reset() { self.value = 0 }`. It signals to the compiler that the instance must be declared as a 'var' to call this method.	|
 |<p id='mutating'>mutating<p>|A modifier used with methods or accessors of value types (structs, enums) to indicate that the method or accessor can modify the instance itself or its properties.	|Define methods that modify value type instances: `mutating func increment() { count += 1 }`.	|
 |<p id='nil'>nil<p>|A special value that indicates the absence of a value for an optional type.	|Assign to optionals: `var optionalString: String? = nil`. Check for absence of value: `if myOptional == nil { ... }`.	|
-|<p id='noasync'>noasync<p>|An attribute used to indicate that a function or closure is not asynchronous, preventing it from being awaited.	|Used internally or for specific API contracts where asynchronicity is not allowed.	|
 |<p id='noDerivative'>noDerivative<p>|An attribute related to automatic differentiation, marking a function or parameter as not having a derivative, or excluding it from differentiation.	|Used in machine learning contexts with Swift for TensorFlow: `@noDerivative`.	|
+|<p id='noasync'>noasync<p>|An attribute used to indicate that a function or closure is not asynchronous, preventing it from being awaited.	|Used internally or for specific API contracts where asynchronicity is not allowed.	|
 |<p id='noescape'>noescape<p>|A deprecated attribute for closure parameters, meaning the closure does not outlive the function call. Replaced by default non-escaping behavior.	|Deprecated. Closures are non-escaping by default; use `@escaping` if needed.	|
 |<p id='none'>none<p>|Used in `precedencegroup` declarations to specify no associativity for an operator, meaning it cannot be chained with itself.	|Define operator associativity: `associativity none`.	|
 |<p id='nonisolated'>nonisolated<p>|A contextual keyword that specifies that an actor's method or property does not access the actor's isolated state and can be called from outside the actor without awaiting.	|Mark actor members that don't need actor isolation: `nonisolated let id: UUID` or `nonisolated func printId()`.	|
@@ -372,7 +379,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='preconcurrency'>preconcurrency<p>|An attribute used on imports or declarations to indicate that the code was written before Swift's strict concurrency checking was fully enforced, allowing for some leniency.	|Apply to imports or modules to opt out of certain strict concurrency warnings temporarily: `@preconcurrency import MyLegacyModule`.	|
 |<p id='prefix'>prefix<p>|A keyword used to define a custom prefix operator, which appears before its single operand.	|Declare custom prefix operators: `prefix operator --`.	|
 |<p id='private'>private<p>|An access control level that restricts the use of an entity to its defining declaration and to extensions of that declaration that are in the same file.	|Limit visibility: `private var secretValue: String`.	|
-|<p id='Protocol'>Protocol<p>|The metatype for any protocol. It represents the type of a protocol itself, not an instance conforming to the protocol.	|When you need to refer to the protocol metatype: `let protocolType: Protocol = MyProtocol.self` or in function parameters that accept protocol types.	|
 |<p id='protocol'>protocol<p>|A keyword used to define a protocol, which is a blueprint of methods, properties, and other requirements that can be adopted by classes, structures, or enumerations.	|Declare a protocol: `protocol MyProtocol { func doSomething() }`.	|
 |<p id='public'>public<p>|An access control level that allows an entity to be used by code in any source file from its defining module and from any other module that imports the defining module.	|Make entities accessible externally: `public class MyAPI { public func doSomething() {} }`.	|
 |<p id='read'>read<p>|An accessor used in computed properties or subscripts to provide read-only access. It must be used with `yield` to provide the value.	|Define a getter for advanced property accessors: `var value: Int { _read { yield _storage } }` (advanced usage).	|
@@ -389,10 +395,9 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='scoped'>scoped<p>|An internal attribute or concept related to declarations whose visibility or lifetime is limited to a specific scope.	|Internal compiler use; not directly used by developers.	|
 |<p id='self'>self<p>|Refers to the instance of the type (class, struct, enum) in which it is used. Can be used to access properties or methods of the current instance, or to disambiguate between a property and a parameter with the same name.	|Access current instance members: `self.property = value`. Disambiguation: `init(name: String) { self.name = name }`.	|
 |<p id='sending'>sending<p>|A contextual keyword that signifies a parameter or binding is 'sending' a value, meaning its ownership is transferred or consumed. This is part of Swift's explicit ownership features.	|Used with variable bindings to explicitly transfer ownership of a value. E.g., `let x = sending y` (experimental feature).	|
-|<p id='Self'>Self<p>|A type alias that refers to the type of the current instance within a type definition. In protocols, it refers to the concrete conforming type; in types, it refers to that specific type.	|In protocols: `static func factory() -> Self`. In class/struct methods: `func copy() -> Self`. Also used with `type(of: self)` which returns `Self.Type`.	|
-|<p id='Sendable'>Sendable<p>|A marker protocol that indicates a type can be safely shared across different concurrency domains (e.g., between actors or tasks) without requiring synchronization.	|Conform types to `Sendable` if they are immutable or provide their own synchronization: `struct MyData: Sendable { ... }`.	|
 |<p id='set'>set<p>|An accessor used within a computed property or subscript to define the code that sets the property's value.	|Define a setter: `var myProperty: Int { get { return _value } set { _value = newValue } }`.	|
 |<p id='some'>some<p>|A keyword used to declare an opaque return type, indicating that a function returns a specific concrete type that conforms to the given protocol, but the exact type is hidden from the caller.	|Declare opaque return types: `func makeView() -> some View { ... }`. The caller knows the returned type conforms to `View` but not the specific concrete type.	|
+|<p id='specialized'>specialized<p>|Not a user-facing keyword. An internal compiler annotation indicating that a generic function or type has been specialized for specific type arguments.	|Internal compiler optimization. Appears in compiler output and debugging information but not written by developers.	|
 |<p id='spi'>spi<p>|Short for 'System Programming Interface'. Not a keyword, but a term used in attributes like `_spi_available` to denote APIs intended for specific system-level clients rather than public use.	|Discussing internal framework APIs or in attributes like `@_spi_available`.	|
 |<p id='spiModule'>spiModule<p>|An attribute used in conjunction with `_spi_available` to specify the module for which an SPI is available.	|Specify the module for SPI availability: `@_spi_available(MyInternalModule, introduced: 1.0)`.	|
 |<p id='static'>static<p>|A modifier used with properties and methods belonging to the type itself, rather than to any instance of that type. Also used to define type properties and type methods in structs, enums, and classes.	|Declare type-level members: `static var shared: MyClass = MyClass()`.	|
@@ -408,7 +413,6 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='transpose'>transpose<p>|An attribute related to automatic differentiation, specifically for transposing functions (e.g., for backpropagation in machine learning).	|Used in machine learning contexts with Swift for TensorFlow: `@transpose(of: f)`.	|
 |<p id='true'>true<p>|A keyword representing the boolean literal value `true`.	|Used for boolean expressions and assignments: `let isActive = true`.	|
 |<p id='try'>try<p>|A keyword used to call a function that can throw an error. It has three variants: `try` (propagates errors), `try?` (converts errors to nil), and `try!` (force-unwraps, crashes on error).	|Call throwing functions: `try someThrowingFunction()`, `let result = try? someThrowingFunction()`, `let result = try! someThrowingFunction()`.	|
-|<p id='Type'>Type<p>|A suffix that creates a metatype. For any type `T`, `T.Type` represents the type of the type itself, allowing you to pass types as values.	|Refer to a type as a value: `let intType: Int.Type = Int.self`. Used in generics: `func createInstance<T>(_ type: T.Type) -> T`.	|
 |<p id='typealias'>typealias<p>|A keyword used to define an alias (an alternative name) for an existing type.	|Create type aliases for clarity or brevity: `typealias AudioSample = UInt16`.	|
 |<p id='unavailable'>unavailable<p>|Used within the `@available` attribute to mark a declaration as unavailable on a particular platform or version.	|Mark an API as unavailable: `@available(macOS, unavailable)`.	|
 |<p id='unchecked'>unchecked<p>|An attribute that can be used to bypass certain safety checks. Most commonly seen in `@unchecked Sendable` to indicate manual thread safety guarantees.	|Mark types as Sendable without compiler verification: `struct MyType: @unchecked Sendable { ... }`. Use only when you can guarantee thread safety manually.	|
@@ -425,6 +429,7 @@ The definitions and where to use were researched with LLMs, if you find it inacc
 |<p id='willSet'>willSet<p>|A property observer that is called just before a property's value is about to be set.	|Execute code before a property's value changes: `var myProperty: Int { willSet { print("Value about to change to \(newValue)") } }`.	|
 |<p id='wrt'>wrt<p>|Short for 'with respect to'. Used in contexts related to automatic differentiation to specify the variables with respect to which a derivative is computed.	|Used in automatic differentiation contexts: `@derivative(of: f, wrt: .0)`.	|
 |<p id='yield'>yield<p>|A keyword used within `read` and `modify` accessors of computed properties and subscripts to provide a value or an inout binding to the caller.	|Provide value in custom accessors: `var value: Int { _read { yield _storage } }` (advanced usage).	|
+|<p id='yielding'>yielding<p>|The act of suspending a coroutine accessor to temporarily lend a value or memory address to a caller using the `yield` keyword.	|In an optimized subscript: `_read { yield storage }`. This avoids the overhead of returning a full copy of a large data structure.	|
 
 
 ## Contributing
