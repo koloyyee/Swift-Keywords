@@ -6,15 +6,42 @@
 
 (ns core
   (:require
+   [babashka.fs :as fs]
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.pprint :as pprint]
    [clojure.string :as str]
    [keywords-map :refer [lookup-maps]]
-   [scrape :refer [find-missing-kws]]))
+   [scrape :as scrape]))
+
 
 (def  ^:private kw-file "keywords.txt")
 (def  ^:private readme "README.md")
-(def  ^:private keywords-map-file "keywords_map.clj")
+(def  ^:private keywords-map-edn "keywords_map.edn")
 
-(def   keywords-vec (str/split  (slurp kw-file) #"\n"))
+(defn is-old-file? [file-path days]
+   (let [now (System/currentTimeMillis)
+       three-months-millis (* days 24 60 60 1000)
+       last-modified (fs/last-modified-time file-path)
+       last-millis (.toMillis last-modified)]
+   (<= three-months-millis (- now last-millis))) )
+
+;; (def  keywords-vec
+;;   (str/split-lines
+;;    (slurp kw-file)))
+
+(def keywords-vec 
+  (if (is-old-file? kw-file 30)
+    (let [kws (scrape/scrape-keywords)]
+      (scrape/write-kws-txt kws :write))
+    (str/split-lines kw-file)))
+
+(comment
+  (scrape/write-kws-txt (sort (str/split-lines (slurp "keywords.txt"))) :write)
+  (is-old-file? kw-file 1)
+  )
+
+
 
 (def  ^:private readme-header
   (str "# Swift Keywords\n"
@@ -53,50 +80,36 @@
 (seq? (find-missing-kws (map :kw lookup-maps)))
 
 (defn is-file-empty [file-path]
-  (let [content (slurp file-path :encoding "UTF-8")]
-    (empty? content)))
+  (try
+    (let [content (slurp file-path :encoding "UTF-8")]
+      (empty? content))
+    (catch Exception _
+      ;; always return false if file not found.
+      false)))
 
-(is-file-empty keywords-map-file)
+(is-file-empty keywords-map-edn)
+
+(defn spit-edn-pretty [path data]
+  (with-open [w (io/writer path)]
+    (binding [pprint/*print-right-margin* 120]
+      (pprint/pprint data w))))
 
 (defn  ^:private gen-lookup-placeholder
   "Generate keywords_map.clj file for contribution"
-  [kws]
+  [kws keywords-map-file]
 
   (if (is-file-empty keywords-map-file)
-    (spit keywords-map-file
-          (str "(ns keywords-map)\n"
-               "(def lookup-maps \n [\n"
-               (str/join "\n"
-                         (map #(format "{:kw \"%s\" :def \"\" :use \"\"}" %) kws))
-               "]\n)"))
+    (spit-edn-pretty keywords-map-file (mapv (fn [k] {:kw k :def "" :use ""}) kws))
     (let [existing (map :kw lookup-maps)
           diff-kws (find-missing-kws existing)
-          ;; when diff-kws not empty, 
-          ;; kws (if (seq diff-kws)
-          ;;       (concat lookup-maps (map (fn [k] {:kw k :def "" :use ""}) diff-kws))
-          ;;       lookup-maps)
-          ;; sorted-kws (sort-by :kw kws)
           kws (->> diff-kws
-               (map (fn [k] {:kw k :def "" :use ""}))
-               (concat lookup-maps)
-               vec
-               (sort-by :kw))]
-      (spit keywords-map-file
-            (str "(ns keywords-map)\n"
-                 "(def lookup-maps \n "
-                 (vec kws)
-                 ")")))))
-
-(let [existing (map :kw lookup-maps)
-      diff-kws (find-missing-kws existing)]
-  (->> diff-kws
-       (map (fn [k] {:kw k :def "" :use ""}))
-       (concat lookup-maps)
-       vec
-       (sort-by :kw)))
-
-;; (gen-lookup-placeholder keywords-vec)
-
+                   (mapv (fn [k] {:kw k :def "" :use ""}))
+                   (concat lookup-maps)
+                   (sort-by :kw)
+                   vec)]
+      (spit-edn-pretty keywords-map-file  kws))))
+(comment
+  (gen-lookup-placeholder keywords-vec keywords-map-edn))
 
 
 (defn  ^:private gen-row [kw-map]
@@ -105,10 +118,10 @@
 (defn ^:private gen-rows [kws]
   (into [] (map gen-row kws)))
 
-;; importing keywords-map vector values
-(load-file keywords-map-file)
-(def rows (str/join (gen-rows lookup-maps)))
+(def rows (str/join
+           (gen-rows (edn/read-string (slurp keywords-map-edn)))))
 #_rows
+
 
 ;; Footer for the file.
 (def footer
